@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     boolean existsBySku(String sku);
-
+    Long countByStoreIdAndIsActiveTrue(UUID storeId);
     Optional<Product> findByIdAndIsActiveTrue(UUID id);
 
     // ⭐ JPQL query: tìm kiếm + lọc theo store, có phân trang
