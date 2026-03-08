@@ -53,4 +53,10 @@ public class GlobalExceptionHandler {
         log.error("Unexpected error: ", ex);  // Log full stacktrace để debug
         return ApiResponse.error("Internal server error");
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse<Void> handleNotFound(ResourceNotFoundException ex) {
+        return ApiResponse.error(ex.getMessage());
+    }
 }

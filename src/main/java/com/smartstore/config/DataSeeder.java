@@ -1,11 +1,16 @@
 package com.smartstore.config;
 
 import com.smartstore.common.enums.RoleName;
+import com.smartstore.domain.store.entity.Store;
+import com.smartstore.domain.store.repository.StoreRepository;
 import com.smartstore.domain.user.entity.Role;
+import com.smartstore.domain.user.entity.User;
 import com.smartstore.domain.user.repository.RoleRepository;
+import com.smartstore.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -17,10 +22,15 @@ import java.util.Arrays;
 public class DataSeeder implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
+    private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
         seedRoles();
+        seedDefaultStore();
+        seedAdminUser();
     }
 
     private void seedRoles() {
@@ -40,5 +50,34 @@ public class DataSeeder implements CommandLineRunner {
                     roleRepository.save(role);
                     log.info("✅ Created role: {}", roleName);
                 });
+    }
+
+    private void seedDefaultStore() {
+        if (storeRepository.count() == 0) {
+            Store store = Store.builder()
+                    .name("Smart Store - Chi nhánh 1")
+                    .address("123 Nguyễn Văn A, Q.1, TP.HCM")
+                    .phone("0901234567")
+                    .build();
+            storeRepository.save(store);
+            log.info("✅ Created default store");
+        }
+    }
+
+    private void seedAdminUser() {
+        if (userRepository.existsByEmail("admin@smartstore.com")) return;
+
+        Role adminRole = roleRepository.findByName(RoleName.ADMIN)
+                .orElseThrow();
+
+        User admin = User.builder()
+                .email("admin@smartstore.com")
+                .passwordHash(passwordEncoder.encode("Admin@123"))
+                .fullName("System Admin")
+                .build();
+
+        admin.addRole(adminRole);
+        userRepository.save(admin);
+        log.info("✅ Created admin user: admin@smartstore.com / Admin@123");
     }
 }
