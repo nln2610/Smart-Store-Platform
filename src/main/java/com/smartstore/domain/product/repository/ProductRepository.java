@@ -24,8 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
         WHERE p.store.id = :storeId
           AND p.isActive = true
           AND (:keyword IS NULL OR
-               LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
-               OR LOWER(p.sku) LIKE LOWER(CONCAT('%', :keyword, '%')))
+               LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:keyword AS string), '%'))
+               OR LOWER(p.sku) LIKE LOWER(CONCAT('%', CAST(:keyword AS string), '%')))
           AND (:categoryId IS NULL OR p.category.id = :categoryId)
         """)
     Page<Product> searchProducts(
