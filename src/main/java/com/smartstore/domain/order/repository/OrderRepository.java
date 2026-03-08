@@ -15,6 +15,13 @@ import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<Order, UUID> {
 
+    // Đếm số order trong ngày để tạo sequence
+    @Query("""
+        SELECT COUNT(o) FROM Order o
+        WHERE o.orderCode LIKE :prefix%
+        """)
+    long countByOrderCodeStartingWith(@Param("prefix") String prefix);
+
     // ⭐ JOIN FETCH để load orderItems + products trong 1 query
     //    tránh N+1 query problem
     @Query("""
