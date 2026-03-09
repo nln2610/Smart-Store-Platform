@@ -18,7 +18,19 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Smart Store Platform API")
                         .version("1.0")
-                        .description("API documentation for Smart Store Platform"))
+                        .description("""
+                        ## Smart Store Platform
+                        Hệ thống quản lý cửa hàng thông minh với AI Integration.
+        
+                        ### Tính năng chính:
+                        - 🔐 JWT Authentication & RBAC
+                        - 📦 Quản lý sản phẩm & kho hàng
+                        - 🛒 Bán hàng & hóa đơn
+                        - 📊 Dashboard & báo cáo
+                        - 🤖 Gợi ý sản phẩm (Market Basket Analysis)
+                        - ✨ AI tóm tắt reviews (Gemini API)
+                        - 💬 Chatbot tư vấn sản phẩm
+                        """))
                 .addSecurityItem(new SecurityRequirement()
                         .addList("Bearer Authentication"))
                 .components(new Components()

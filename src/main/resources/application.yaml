@@ -32,6 +32,10 @@ app:
     expiration-ms: 86400000       # 24 giờ
     refresh-expiration-ms: 604800000  # 7 ngày
 
+  gemini:
+    api-key: ${GEMINI_API_KEY}
+    model: gemini-3.0-flash
+
 springdoc:
   api-docs:
     enabled: true
