@@ -14,8 +14,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
-# Render dùng PORT env variable
-EXPOSE 8080
+
 
 ENTRYPOINT ["java", \
   "-Djava.security.egd=file:/dev/./urandom", \

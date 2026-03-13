@@ -21,6 +21,8 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  server:
+    port: ${PORT:8080}
 # Tắt Swagger ở production nếu muốn bảo mật
 # springdoc:
 #   swagger-ui:
